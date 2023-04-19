@@ -6,7 +6,7 @@ export const runConfetti = () => {
     origin: { y: 0.7 },
   };
 
-  function fire(particleRatio, opts) {
+  function fire(particleRatio: any, opts: any) {
     confetti(
       Object.assign({}, defaults, opts, {
         particleCount: Math.floor(count * particleRatio),

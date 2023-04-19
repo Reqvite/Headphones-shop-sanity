@@ -15,7 +15,7 @@ import Image from "next/image";
 import { getStripe } from "@/lib/getStripe";
 
 const Cart: FC = () => {
-  const cartRef = useRef();
+  const cartRef = useRef<HTMLDivElement>(null);
   const {
     showCart,
     totalPrice,
@@ -37,13 +37,13 @@ const Cart: FC = () => {
       body: JSON.stringify(cartItems),
     });
 
-    if (response.statusCode === 500) return;
+    if (response.status === 500) return;
 
     const data = await response.json();
 
     toast.loading("Redirecting...");
 
-    stripe.redirectToCheckout({ sessionId: data.id });
+    stripe?.redirectToCheckout({ sessionId: data.id });
   };
 
   return (

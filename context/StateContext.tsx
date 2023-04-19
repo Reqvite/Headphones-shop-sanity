@@ -1,32 +1,53 @@
 import { createContext, useState, FC, useContext } from "react";
 import toast from "react-hot-toast";
+import { ContextI, ProductWithQuantityI } from "@/types";
 
-const Context = createContext("1");
+export const Context = createContext<ContextI>({
+  showCart: false,
+  setShowCart: () => {},
+  cartItems: [],
+  setCartItems: () => {},
+  totalPrice: 0,
+  setTotalPrice: () => {},
+  totalQuantities: 0,
+  setTotalQuantities: () => {},
+  qty: 0,
+  incQty: () => {},
+  decQty: () => {},
+  onAdd: () => {},
+  toggleCartItemQuanitity: () => {},
+  onRemove: () => {},
+});
 
 export const StateContext: FC<any> = ({ children }) => {
   const [showCart, setShowCart] = useState<boolean>(false);
-  const [cartItems, setCartItems] = useState([]);
+  const [cartItems, setCartItems] = useState<ProductWithQuantityI[]>([]);
   const [totalPrice, setTotalPrice] = useState<number>(0);
   const [totalQuantities, setTotalQuantities] = useState<number>(0);
   const [qty, setQty] = useState<number>(1);
 
-  let foundProduct;
-  let idx;
+  let foundProduct: ProductWithQuantityI;
+  let idx: number;
 
-  const onAdd = (product, quantity: number) => {
-    const isInCart = cartItems.find((item) => item._id === product._id);
+  const onAdd = (product: ProductWithQuantityI, quantity: number): void => {
+    const isInCart = cartItems.find(
+      (item: ProductWithQuantityI) => item._id === product._id
+    );
 
     setTotalPrice((prevPrice) => prevPrice + product.price * quantity);
     setTotalQuantities((prevQty) => prevQty + quantity);
 
     if (isInCart) {
-      const updatedCartItems = cartItems.map((cartProduct) => {
-        if (cartProduct._id === product._id)
-          return {
-            ...cartProduct,
-            quantity: cartProduct.quantity + quantity,
-          };
-      });
+      const updatedCartItems = cartItems.map(
+        (cartProduct: ProductWithQuantityI) => {
+          if (cartProduct._id === product._id)
+            return {
+              ...cartProduct,
+              quantity: cartProduct.quantity + quantity,
+            };
+          return cartProduct;
+        }
+      );
 
       setCartItems(updatedCartItems);
     } else {
@@ -36,8 +57,8 @@ export const StateContext: FC<any> = ({ children }) => {
     toast.success(`${qty} ${product.name} added to cart.`);
   };
 
-  const onRemove = (product) => {
-    foundProduct = cartItems.find((item) => item._id === product._id);
+  const onRemove = (product: ProductWithQuantityI): void => {
+    foundProduct = cartItems.find((item) => item._id === product._id)!;
     const newCartItems = cartItems.filter((item) => item._id !== product._id);
 
     setTotalPrice(
@@ -50,16 +71,21 @@ export const StateContext: FC<any> = ({ children }) => {
     setCartItems(newCartItems);
   };
 
-  const toggleCartItemQuanitity = (id, value) => {
-    foundProduct = cartItems.find((item) => item._id === id);
+  const toggleCartItemQuanitity = (id: string, value: string): void => {
+    foundProduct = cartItems.find((item) => item._id === id)!;
     idx = cartItems.findIndex((product) => product._id === id);
     const newCartItems = cartItems.filter((item) => item._id !== id);
 
     if (value === "inc") {
-      setCartItems([
+      const cartItems: any = [
         ...newCartItems,
-        { ...foundProduct, quantity: foundProduct.quantity + 1 },
-      ]);
+        {
+          ...foundProduct,
+          quantity: foundProduct.quantity + 1,
+        },
+      ];
+
+      setCartItems(cartItems);
       setTotalPrice((prevTotalPrice) => prevTotalPrice + foundProduct.price);
       setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + 1);
     } else if (value === "dec") {

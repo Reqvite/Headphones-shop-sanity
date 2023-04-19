@@ -1,6 +1,12 @@
+import { ProductWithQuantityI } from "@/types";
+import { NextApiRequest, NextApiResponse } from "next";
+
 const stripe = require("stripe")(process.env.NEXT_PUBLIC_STRIPE_SECRET);
 
-export default async function handler(req, res) {
+export default async function handler(
+  req: NextApiRequest,
+  res: NextApiResponse
+) {
   if (req.method === "POST") {
     console.log(req.body.cartItems);
     try {
@@ -13,7 +19,7 @@ export default async function handler(req, res) {
           { shipping_rate: "shr_1MyZwXCPvY6H2O68pVYPwIyx" },
           { shipping_rate: "shr_1MyZOyCPvY6H2O68LzLnY7cv" },
         ],
-        line_items: req.body.map((item) => {
+        line_items: req.body.map((item: ProductWithQuantityI) => {
           const img = item.image[0].asset._ref;
 
           const newImage = img
@@ -44,7 +50,7 @@ export default async function handler(req, res) {
       };
       const session = await stripe.checkout.sessions.create(params);
       res.status(200).json(session);
-    } catch (err) {
+    } catch (err: any) {
       res.status(err.statusCode || 500).json(err.message);
     }
   } else {

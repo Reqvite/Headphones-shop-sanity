@@ -9,6 +9,7 @@ import {
 } from "react-icons/ai";
 import { Product } from "@/components";
 import { useStateContext } from "../../context/StateContext";
+import { ProductI } from "@/types";
 
 const ProductDetails: FC<any> = ({ product, products }) => {
   const { image, name, details, price } = product;
@@ -37,7 +38,7 @@ const ProductDetails: FC<any> = ({ product, products }) => {
             />
           </div>
           <div className="small-images-container">
-            {image?.map((item, i) => (
+            {image?.map((item: any, i: number) => (
               <Image
                 key={i}
                 alt="product"
@@ -118,7 +119,7 @@ export const getStaticPaths = async () => {
     }`;
 
   const products = await client.fetch(query);
-  const paths = products.map((product) => ({
+  const paths = products.map((product: ProductI) => ({
     params: {
       slug: product.slug.current,
     },
@@ -130,7 +131,7 @@ export const getStaticPaths = async () => {
   };
 };
 
-export const getStaticProps = async ({ params: { slug } }) => {
+export const getStaticProps = async ({ params: { slug } }: any) => {
   const query = `*[_type == "product" && slug.current == '${slug}'][0]`;
   const productsQuery = '*[_type == "product"]';
 
