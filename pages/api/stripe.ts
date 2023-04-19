@@ -8,7 +8,6 @@ export default async function handler(
   res: NextApiResponse
 ) {
   if (req.method === "POST") {
-    console.log(req.body.cartItems);
     try {
       const params = {
         submit_type: "pay",
