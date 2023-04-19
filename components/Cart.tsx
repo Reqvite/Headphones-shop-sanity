@@ -1,4 +1,4 @@
-import { FC, useRef } from "react";
+import { FC, useEffect, useRef } from "react";
 import Link from "next/link";
 import {
   AiOutlineMinus,
@@ -25,6 +25,28 @@ const Cart: FC = () => {
     toggleCartItemQuanitity,
     onRemove,
   } = useStateContext();
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (target?.classList.contains("cart-wrapper")) {
+        setShowCart(false);
+      }
+    };
+
+    const hanldeEsc = (e: KeyboardEvent) => {
+      if (e.code === "Escape") {
+        setShowCart(false);
+      }
+    };
+
+    window.addEventListener("click", handleClickOutside);
+    window.addEventListener("keydown", hanldeEsc);
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+      window.removeEventListener("keydown", hanldeEsc);
+    };
+  }, [cartRef, setShowCart]);
 
   const handleCheckout = async () => {
     const stripe = await getStripe();
