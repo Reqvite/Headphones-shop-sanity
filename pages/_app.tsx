@@ -1,11 +1,11 @@
 import { FC } from "react";
-import type { AppProps } from "next/app";
 import { Layout } from "@/components";
 import "@/styles/globals.css";
 import { StateContext } from "@/context/StateContext";
 import { Toaster } from "react-hot-toast";
+import { AppProps } from "next/app";
 
-const App: FC<any> = ({ Component, pageProps }: AppProps) => {
+const App: FC<AppProps> = ({ Component, pageProps }) => {
   return (
     <StateContext>
       <Layout>

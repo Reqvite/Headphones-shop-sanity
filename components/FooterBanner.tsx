@@ -1,9 +1,10 @@
 import { urlFor } from "@/lib/client";
+import { BannerI } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
 
-const FooterBanner: FC<any> = ({
+const FooterBanner: FC<{ footerBanner: BannerI }> = ({
   footerBanner: {
     discount,
     largeText1,

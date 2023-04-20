@@ -9,9 +9,12 @@ import {
 } from "react-icons/ai";
 import { Product } from "@/components";
 import { useStateContext } from "../../context/StateContext";
-import { ProductI } from "@/types";
+import { ProductI, ProductWithQuantityI } from "@/types";
 
-const ProductDetails: FC<any> = ({ product, products }) => {
+const ProductDetails: FC<{
+  product: ProductWithQuantityI;
+  products: ProductI[];
+}> = ({ product, products }) => {
   const { image, name, details, price } = product;
 
   const [index, setIndex] = useState(0);

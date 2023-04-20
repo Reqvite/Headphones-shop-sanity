@@ -2,16 +2,27 @@ import { FC } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { urlFor } from "@/lib/client";
+import { BannerI } from "@/types";
 
-const HeroBanner: FC<any> = ({ heroBanner }) => {
+const HeroBanner: FC<{ heroBanner: BannerI }> = ({
+  heroBanner: {
+    largeText1,
+    smallText,
+    desc,
+    midText,
+    product,
+    buttonText,
+    image,
+  },
+}) => {
   return (
     <div className="hero-banner-container">
       <div>
-        <p className="beats-solo">{heroBanner.smallText}</p>
-        <h3>{heroBanner.midText}</h3>
-        <h1>{heroBanner.largeText1}</h1>
+        <p className="beats-solo">{smallText}</p>
+        <h3>{midText}</h3>
+        <h1>{largeText1}</h1>
         <Image
-          src={urlFor(heroBanner.image).url()}
+          src={urlFor(image).url()}
           alt="headphones"
           className="hero-banner-image"
           width="555"
@@ -19,12 +30,12 @@ const HeroBanner: FC<any> = ({ heroBanner }) => {
           unoptimized={true}
         />
         <div>
-          <Link href={`/product/${heroBanner.product}`}>
-            <button type="button">{heroBanner.buttonText}</button>
+          <Link href={`/product/${product}`}>
+            <button type="button">{buttonText}</button>
           </Link>
           <div className="desc">
             <h5>Description</h5>
-            <p>{heroBanner.desc}</p>
+            <p>{desc}</p>
           </div>
         </div>
       </div>

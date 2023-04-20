@@ -1,11 +1,15 @@
 import { FC } from "react";
 import { Product, FooterBanner, HeroBanner } from "../components/";
 import { client } from "@/lib/client";
+import { BannerI, ProductI } from "@/types";
 
-const Home: FC<any> = ({ products, banners }) => {
+const Home: FC<{ products: ProductI[]; banners: BannerI[] }> = ({
+  products,
+  banners,
+}) => {
   return (
     <>
-      <HeroBanner heroBanner={banners.length && banners[0]} />
+      <HeroBanner heroBanner={banners && banners[0]} />
       <div className="products-heading">
         <h2>Best Sellging Products</h2>
         <p>Speakers of many variations</p>

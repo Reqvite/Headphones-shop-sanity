@@ -1,9 +1,10 @@
 import { urlFor } from "@/lib/client";
+import { ProductI } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { FC } from "react";
 
-const Product: FC<any> = ({ image, name, slug, price }) => {
+const Product: FC<ProductI> = ({ image, name, slug, price }) => {
   return (
     <div>
       <Link href={`/product/${slug.current}`}>
