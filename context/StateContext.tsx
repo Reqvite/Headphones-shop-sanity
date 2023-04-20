@@ -31,7 +31,7 @@ export const StateContext: FC<{ children: ReactNode }> = ({ children }) => {
     "totalQuantities",
     0
   );
-  const [qty, setQty] = useLocalStorage<number>("qty", 1);
+  const [qty, setQty] = useState<number>(1);
 
   let foundProduct: ProductWithQuantityI;
   let idx: number;
