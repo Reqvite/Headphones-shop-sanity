@@ -1,4 +1,4 @@
-import { createContext, FC, useContext, useState } from "react";
+import { createContext, FC, ReactNode, useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { ContextI, ProductWithQuantityI } from "@/types";
 import { useLocalStorage } from "@/hooks/useLocalStorage";
@@ -20,7 +20,7 @@ export const Context = createContext<ContextI>({
   onRemove: () => {},
 });
 
-export const StateContext: FC<any> = ({ children }) => {
+export const StateContext: FC<{ children: ReactNode }> = ({ children }) => {
   const [showCart, setShowCart] = useState<boolean>(false);
   const [cartItems, setCartItems] = useLocalStorage<ProductWithQuantityI[]>(
     "cartItems",
@@ -81,28 +81,30 @@ export const StateContext: FC<any> = ({ children }) => {
   const toggleCartItemQuanitity = (id: string, value: string): void => {
     foundProduct = cartItems.find((item) => item._id === id)!;
     idx = cartItems.findIndex((product) => product._id === id);
-    const newCartItems = cartItems.filter((item) => item._id !== id);
 
     if (value === "inc") {
-      const cartItems: any = [
-        ...newCartItems,
-        {
-          ...foundProduct,
-          quantity: foundProduct.quantity + 1,
-        },
-      ];
+      const updatedProduct = {
+        ...foundProduct,
+        quantity: foundProduct.quantity + 1,
+      };
+      const updatedCartItems = [...cartItems];
+      updatedCartItems[idx] = updatedProduct;
 
-      setCartItems(cartItems);
+      setCartItems(updatedCartItems);
       setTotalPrice(
         (prevTotalPrice: any) => prevTotalPrice + foundProduct.price
       );
       setTotalQuantities((prevTotalQuantities: any) => prevTotalQuantities + 1);
     } else if (value === "dec") {
       if (foundProduct.quantity > 1) {
-        setCartItems([
-          ...newCartItems,
-          { ...foundProduct, quantity: foundProduct.quantity - 1 },
-        ]);
+        const updatedProduct = {
+          ...foundProduct,
+          quantity: foundProduct.quantity - 1,
+        };
+        const updatedCartItems = [...cartItems];
+        updatedCartItems[idx] = updatedProduct;
+
+        setCartItems(updatedCartItems);
         setTotalPrice(
           (prevTotalPrice: any) => prevTotalPrice - foundProduct.price
         );
