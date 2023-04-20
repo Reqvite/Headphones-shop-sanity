@@ -1,6 +1,7 @@
-import { createContext, useState, FC, useContext } from "react";
+import { createContext, FC, useContext, useState } from "react";
 import toast from "react-hot-toast";
 import { ContextI, ProductWithQuantityI } from "@/types";
+import { useLocalStorage } from "@/hooks/useLocalStorage";
 
 export const Context = createContext<ContextI>({
   showCart: false,
@@ -21,10 +22,16 @@ export const Context = createContext<ContextI>({
 
 export const StateContext: FC<any> = ({ children }) => {
   const [showCart, setShowCart] = useState<boolean>(false);
-  const [cartItems, setCartItems] = useState<ProductWithQuantityI[]>([]);
-  const [totalPrice, setTotalPrice] = useState<number>(0);
-  const [totalQuantities, setTotalQuantities] = useState<number>(0);
-  const [qty, setQty] = useState<number>(1);
+  const [cartItems, setCartItems] = useLocalStorage<ProductWithQuantityI[]>(
+    "cartItems",
+    []
+  );
+  const [totalPrice, setTotalPrice] = useLocalStorage<number>("totalPrice", 0);
+  const [totalQuantities, setTotalQuantities] = useLocalStorage<number>(
+    "totalQuantities",
+    0
+  );
+  const [qty, setQty] = useLocalStorage<number>("qty", 1);
 
   let foundProduct: ProductWithQuantityI;
   let idx: number;
@@ -34,8 +41,8 @@ export const StateContext: FC<any> = ({ children }) => {
       (item: ProductWithQuantityI) => item._id === product._id
     );
 
-    setTotalPrice((prevPrice) => prevPrice + product.price * quantity);
-    setTotalQuantities((prevQty) => prevQty + quantity);
+    setTotalPrice((prevPrice: any) => prevPrice + product.price * quantity);
+    setTotalQuantities((prevQty: any) => prevQty + quantity);
 
     if (isInCart) {
       const updatedCartItems = cartItems.map(
@@ -62,11 +69,11 @@ export const StateContext: FC<any> = ({ children }) => {
     const newCartItems = cartItems.filter((item) => item._id !== product._id);
 
     setTotalPrice(
-      (prevTotalPrice) =>
+      (prevTotalPrice: any) =>
         prevTotalPrice - foundProduct.price * foundProduct.quantity
     );
     setTotalQuantities(
-      (prevTotalQuantities) => prevTotalQuantities - foundProduct.quantity
+      (prevTotalQuantities: any) => prevTotalQuantities - foundProduct.quantity
     );
     setCartItems(newCartItems);
   };
@@ -86,26 +93,32 @@ export const StateContext: FC<any> = ({ children }) => {
       ];
 
       setCartItems(cartItems);
-      setTotalPrice((prevTotalPrice) => prevTotalPrice + foundProduct.price);
-      setTotalQuantities((prevTotalQuantities) => prevTotalQuantities + 1);
+      setTotalPrice(
+        (prevTotalPrice: any) => prevTotalPrice + foundProduct.price
+      );
+      setTotalQuantities((prevTotalQuantities: any) => prevTotalQuantities + 1);
     } else if (value === "dec") {
       if (foundProduct.quantity > 1) {
         setCartItems([
           ...newCartItems,
           { ...foundProduct, quantity: foundProduct.quantity - 1 },
         ]);
-        setTotalPrice((prevTotalPrice) => prevTotalPrice - foundProduct.price);
-        setTotalQuantities((prevTotalQuantities) => prevTotalQuantities - 1);
+        setTotalPrice(
+          (prevTotalPrice: any) => prevTotalPrice - foundProduct.price
+        );
+        setTotalQuantities(
+          (prevTotalQuantities: any) => prevTotalQuantities - 1
+        );
       }
     }
   };
 
   const incQty = (): void => {
-    setQty((prev) => prev + 1);
+    setQty((prev: any) => prev + 1);
   };
 
   const decQty = (): void => {
-    setQty((prev) => {
+    setQty((prev: any) => {
       if (prev - 1 < 1) return 1;
 
       return prev - 1;

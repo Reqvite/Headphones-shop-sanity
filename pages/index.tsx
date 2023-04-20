@@ -1,6 +1,7 @@
 import { FC } from "react";
 import { Product, FooterBanner, HeroBanner } from "../components/";
 import { client } from "@/lib/client";
+
 const Home: FC<any> = ({ products, banners }) => {
   return (
     <>
