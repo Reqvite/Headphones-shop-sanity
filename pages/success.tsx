@@ -30,7 +30,7 @@ const Success: FC = () => {
         </p>
         <h2>
           {status !== "true"
-            ? "You haven&apos;t completed your purchase yet."
+            ? "You haven't completed your purchase yet."
             : "Thank you for your order!"}
         </h2>
         <p className="email-msg">Check your email inbox for the receipt.</p>
