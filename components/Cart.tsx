@@ -1,4 +1,4 @@
-import { FC, useEffect, useRef } from "react";
+import { FC, useEffect, useRef, useState } from "react";
 import { Transition } from "react-transition-group";
 import Link from "next/link";
 import {
@@ -14,9 +14,11 @@ import { useStateContext } from "../context/StateContext";
 import { urlFor } from "../lib/client";
 import Image from "next/image";
 import { getStripe } from "@/lib/getStripe";
+import { Oval } from "react-loader-spinner";
 
 const Cart: FC = () => {
   const cartRef = useRef<HTMLDivElement>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const {
     showCart,
@@ -53,6 +55,7 @@ const Cart: FC = () => {
   const handleCheckout = async () => {
     const stripe = await getStripe();
 
+    setIsLoading(true);
     const response = await fetch("/api/stripe", {
       method: "POST",
       headers: {
@@ -61,6 +64,7 @@ const Cart: FC = () => {
       body: JSON.stringify(cartItems),
     });
 
+    setIsLoading(false);
     if (response.status === 500) return;
 
     const data = await response.json();
@@ -158,11 +162,16 @@ const Cart: FC = () => {
                 </div>
                 <div className="btn-container">
                   <button
+                    disabled={isLoading}
                     type="button"
                     className="btn"
                     onClick={handleCheckout}
                   >
-                    Pay with Stripe
+                    {isLoading ? (
+                      <Oval height={25} width={25} color="#ffffff" />
+                    ) : (
+                      "Pay with Stripe "
+                    )}
                   </button>
                 </div>
               </div>

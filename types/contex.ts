@@ -1,4 +1,4 @@
-import { ProductI, ProductWithQuantityI } from "./product";
+import { ProductWithQuantityI } from "./product";
 
 export interface ContextI {
   showCart: boolean;

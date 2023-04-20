@@ -44,7 +44,7 @@ export default async function handler(
             quantity: item.quantity,
           };
         }),
-        success_url: `${req.headers.origin}/success`,
+        success_url: `${req.headers.origin}/success?status=true`,
         cancel_url: `${req.headers.origin}/?canceled=true`,
       };
       const session = await stripe.checkout.sessions.create(params);

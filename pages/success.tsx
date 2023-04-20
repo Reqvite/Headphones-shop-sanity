@@ -1,5 +1,6 @@
-import { useState, FC, useEffect } from "react";
+import { FC, useEffect } from "react";
 import { BsBagCheckFill } from "react-icons/bs";
+import { useRouter } from "next/router";
 
 import { useStateContext } from "../context/StateContext";
 import Link from "next/link";
@@ -7,15 +8,29 @@ import { runConfetti } from "@/lib/utils";
 
 const Success: FC = () => {
   const { setCartItems, setTotalPrice, setTotalQuantities } = useStateContext();
-  const [order, setOrder] = useState(null);
+
+  const router = useRouter();
+  const { status } = router.query;
 
   useEffect(() => {
-    localStorage.clear();
-    setCartItems([]);
-    setTotalPrice(0);
-    setTotalQuantities(0);
-    runConfetti();
-  }, [setCartItems, setTotalPrice, setTotalQuantities]);
+    if (status === "true") {
+      localStorage.clear();
+      setCartItems([]);
+      setTotalPrice(0);
+      setTotalQuantities(0);
+      runConfetti();
+    }
+  }, [router, setCartItems, setTotalPrice, setTotalQuantities, status]);
+
+  if (status !== "true") {
+    return (
+      <div className="success-wrapper">
+        <div className="success">
+          <h2>You haven&apos;t completed your purchase yet.</h2>
+        </div>
+      </div>
+    );
+  }
   return (
     <div className="success-wrapper">
       <div className="success">
