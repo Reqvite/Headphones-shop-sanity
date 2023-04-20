@@ -32,6 +32,7 @@
     "typescript": "5.0.4"
   },
   "devDependencies": {
-    "@types/canvas-confetti": "^1.6.0"
+    "@types/canvas-confetti": "^1.6.0",
+    "@types/react-transition-group": "^4.4.5"
   }
 }
