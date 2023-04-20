@@ -25,15 +25,20 @@ const Success: FC = () => {
   return (
     <div className="success-wrapper">
       <div className="success">
-        <p className="icon">
-          <BsBagCheckFill />
-        </p>
+        {status === "true" && (
+          <p className="icon">
+            <BsBagCheckFill />
+          </p>
+        )}
         <h2>
           {status !== "true"
             ? "You haven't completed your purchase yet."
             : "Thank you for your order!"}
         </h2>
-        <p className="email-msg">Check your email inbox for the receipt.</p>
+        {status === "true" && (
+          <p className="email-msg">Check your email inbox for the receipt.</p>
+        )}
+
         <p className="description">
           If you have any questions, please email
           <a className="email" href="mailto:order@example.com">
