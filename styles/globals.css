@@ -151,7 +151,12 @@ width: 100%;
   font-size: 18px;
   font-weight: 500;
   cursor: pointer;
-  z-index:10000 !important;
+  z-index:10000;
+    transition: all 250ms ease-in-out;
+}
+
+.hero-banner-container button:hover{
+  transform:scale(1.1,1.1)
 }
 
 .hero-banner-container h3{
@@ -235,6 +240,11 @@ text-align: end;
   font-size: 18px;
   font-weight: 500;
   cursor: pointer;
+    transition: all 250ms ease-in-out;
+}
+  
+.banner-desc button:hover{
+  transform:scale(1.1,1.1)
 }
 .banner-desc .left h3{
   font-weight: 900;
@@ -272,7 +282,6 @@ text-align: end;
   right: 0;
   top: 0;
   z-index: 100;
-  /* will-change: transform; */
   transition: all 1s ease-in-out;
 
 }
@@ -283,8 +292,25 @@ text-align: end;
   float: right;
   padding: 40px 10px;
   position: relative;
-  
+  transition: transform  500ms cubic-bezier(0.075, 0.82, 0.165, 1);
 }
+
+.cart-container.entering{
+   transform: translateX(100%);
+}
+.cart-container.entered{
+   transform: translateX(0);
+}
+.cart-container.exiting{
+   transform: translateX(100%);
+}
+.cart-container.exited{
+  transform: translateX(100%);
+}
+
+
+
+
 
 .footer-container{
   color: #324d67;
@@ -762,3 +788,4 @@ margin-top: 160px;
   margin: auto;
 }
 }
+

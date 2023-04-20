@@ -101,7 +101,7 @@ const ProductDetails: FC<any> = ({ product, products }) => {
         <h2>You may also like</h2>
         <div className="marquee">
           <div className="maylike-products-container track">
-            {products.map((item: any) => (
+            {products.map((item: ProductI) => (
               <Product key={item._id} {...item} />
             ))}
           </div>
