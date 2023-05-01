@@ -26,13 +26,18 @@ const ProductDetails: FC<{
     setShowCart(true);
   };
 
+  console.log(image[index]);
   return (
     <div>
       <div className="product-detail-container">
         <div>
           <div className="image-container">
             <Image
-              src={urlFor(image && image[index]).url()}
+              src={
+                image && image[index]
+                  ? urlFor(image[index]).url()
+                  : urlFor(image[0]).url()
+              }
               className="product-detail-image"
               alt={name}
               width="111"
