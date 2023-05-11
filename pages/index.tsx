@@ -11,7 +11,7 @@ const Home: FC<{ products: ProductI[]; banners: BannerI[] }> = ({
     <>
       <HeroBanner heroBanner={banners && banners[0]} />
       <div className="products-heading">
-        <h2>Best Sellging Products</h2>
+        <h2>Best Selling Products</h2>
         <p>Speakers of many variations</p>
       </div>
       <div className="products-container">
